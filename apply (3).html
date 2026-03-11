@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Apply — Plummer Performance Academy</title>
+<meta name="description" content="Apply for 1:1 online rugby performance coaching with Adam Plummer.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0a0a;
+  --surface: #111113;
+  --surface2: #1a1a1e;
+  --border: #2a2a30;
+  --border-light: #3a3a42;
+  --text: #e8e8f0;
+  --muted: #888898;
+  --orange: #f97316;
+  --orange-lo: rgba(249,115,22,0.12);
+  --green: #22c55e;
+  --green-lo: rgba(34,197,94,0.10);
+  --blue: #3b82f6;
+  --blue-lo: rgba(59,130,246,0.10);
+  --font-display: 'Bebas Neue', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Logo / brand bar */
+.brand {
+  font-family: var(--font-display);
+  font-size: 20px;
+  letter-spacing: 0.08em;
+  color: #fff;
+  text-align: center;
+  margin-bottom: 40px;
+  text-decoration: none;
+}
+.brand span { color: var(--orange); }
+
+/* Card container */
+.form-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 40px 32px;
+  max-width: 520px;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+.form-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--orange);
+}
+
+/* Progress bar */
+.progress {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 32px;
+}
+.progress-dot {
+  flex: 1;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--border);
+  transition: background 0.3s;
+}
+.progress-dot.active {
+  background: var(--orange);
+}
+
+/* Step styling */
+.step {
+  display: none;
+  animation: fadeIn 0.3s ease;
+}
+.step.active {
+  display: block;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.step-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--orange);
+  margin-bottom: 8px;
+}
+.step-title {
+  font-family: var(--font-display);
+  font-size: 28px;
+  color: #fff;
+  margin-bottom: 6px;
+  line-height: 1.1;
+}
+.step-sub {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.6;
+  margin-bottom: 28px;
+}
+
+/* Form fields */
+.field {
+  margin-bottom: 20px;
+}
+.field label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+.field input,
+.field select,
+.field textarea {
+  width: 100%;
+  padding: 12px 14px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  border-color: var(--orange);
+}
+.field select {
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='%23888898'%3E%3Cpath d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 36px;
+}
+.field textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+/* Option cards (for yes/no investment question) */
+.option-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 8px;
+}
+.option-card {
+  background: var(--surface2);
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: left;
+}
+.option-card:hover {
+  border-color: var(--border-light);
+  background: rgba(255,255,255,0.03);
+}
+.option-card.selected {
+  border-color: var(--orange);
+  background: var(--orange-lo);
+}
+.option-card-title {
+  font-family: var(--font-display);
+  font-size: 20px;
+  color: #fff;
+  margin-bottom: 4px;
+}
+.option-card-sub {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+/* Buttons */
+.btn-row {
+  display: flex;
+  gap: 12px;
+  margin-top: 28px;
+}
+.btn {
+  padding: 14px 28px;
+  border-radius: 8px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.btn-primary {
+  background: var(--orange);
+  color: #fff;
+  flex: 1;
+}
+.btn-primary:hover {
+  background: #ea6a0e;
+  transform: translateY(-1px);
+}
+.btn-primary:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
+}
+.btn-back {
+  background: transparent;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  padding: 14px 20px;
+}
+.btn-back:hover {
+  border-color: var(--border-light);
+  color: var(--text);
+}
+
+/* Result screens */
+.result-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+.result-title {
+  font-family: var(--font-display);
+  font-size: 32px;
+  color: #fff;
+  margin-bottom: 8px;
+}
+.result-text {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.7;
+  margin-bottom: 28px;
+}
+.result-cta {
+  display: block;
+  width: 100%;
+  text-align: center;
+  padding: 16px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 15px;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+.result-cta.cta-orange {
+  background: var(--orange);
+  color: #fff;
+}
+.result-cta.cta-orange:hover {
+  background: #ea6a0e;
+  transform: translateY(-1px);
+}
+.result-cta.cta-green {
+  background: var(--green);
+  color: #fff;
+  margin-top: 12px;
+}
+.result-cta.cta-green:hover {
+  background: #1aad50;
+  transform: translateY(-1px);
+}
+.result-cta.cta-blue {
+  background: var(--blue);
+  color: #fff;
+  margin-top: 12px;
+}
+.result-cta.cta-blue:hover {
+  background: #2570e0;
+  transform: translateY(-1px);
+}
+.or-divider {
+  text-align: center;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin: 16px 0;
+}
+
+/* Mobile */
+@media (max-width: 540px) {
+  .form-card { padding: 28px 20px; }
+  .step-title { font-size: 24px; }
+  .result-title { font-size: 26px; }
+}
+</style>
+</head>
+<body>
+
+<a href="index.html" class="brand">PLUMMER <span>PERFORMANCE</span></a>
+
+<div class="form-card">
+  <!-- Progress bar -->
+  <div class="progress">
+    <div class="progress-dot active" id="dot1"></div>
+    <div class="progress-dot" id="dot2"></div>
+    <div class="progress-dot" id="dot3"></div>
+  </div>
+
+  <!-- STEP 1: Quick questions -->
+  <div class="step active" id="step1">
+    <div class="step-label">Step 1 of 3</div>
+    <div class="step-title">TELL US ABOUT YOU</div>
+    <div class="step-sub">Takes 30 seconds. Helps us prep for your call.</div>
+
+    <div class="field">
+      <label for="firstName">First Name</label>
+      <input type="text" id="firstName" placeholder="e.g. Jake" required>
+    </div>
+    <div class="field">
+      <label for="sport">Sport</label>
+      <select id="sport">
+        <option value="" disabled selected>Select your sport</option>
+        <option value="Rugby League">Rugby League</option>
+        <option value="Rugby Union">Rugby Union</option>
+        <option value="Other">Other</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="position">Position</label>
+      <input type="text" id="position" placeholder="e.g. Centre, Halfback, Prop">
+    </div>
+    <div class="field">
+      <label for="goal">What's your #1 training goal right now?</label>
+      <select id="goal">
+        <option value="" disabled selected>Select one</option>
+        <option value="Get faster">Get faster</option>
+        <option value="Get stronger">Get stronger</option>
+        <option value="Improve power">Improve power</option>
+        <option value="Better conditioning">Better conditioning</option>
+        <option value="All of the above">All of the above</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="extra">Anything else we should know? <span style="color:var(--muted); font-weight:400;">(optional)</span></label>
+      <textarea id="extra" placeholder="e.g. injuries, upcoming trials, current training setup..."></textarea>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-primary" id="toStep2" disabled>Next →</button>
+    </div>
+  </div>
+
+  <!-- STEP 2: Investment question -->
+  <div class="step" id="step2">
+    <div class="step-label">Step 2 of 3</div>
+    <div class="step-title">ONE QUICK QUESTION</div>
+    <div class="step-sub">Our 1:1 online coaching is <strong style="color:#fff;">$79.95/week</strong>. This includes a fully individualised program, weekly check-ins, and direct access to your coach.</div>
+
+    <div style="font-size:15px; font-weight:700; color:#fff; margin-bottom:12px;">Are you ready to invest in yourself?</div>
+
+    <div class="option-cards">
+      <div class="option-card" id="optYes" onclick="selectInvestment('yes')">
+        <div class="option-card-title">YES — LET'S GO</div>
+        <div class="option-card-sub">I'm serious about getting faster and stronger. Book me in.</div>
+      </div>
+      <div class="option-card" id="optNo" onclick="selectInvestment('no')">
+        <div class="option-card-title">NOT YET</div>
+        <div class="option-card-sub">I'm interested but not ready to commit to 1:1 coaching right now.</div>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-back" onclick="goBack(1)">← Back</button>
+      <button class="btn btn-primary" id="toStep3" disabled>Next →</button>
+    </div>
+  </div>
+
+  <!-- STEP 3A: Qualified — book call -->
+  <div class="step" id="step3yes">
+    <div class="result-icon">🔥</div>
+    <div class="result-title">YOU'RE IN.</div>
+    <div class="result-text">
+      Nice one<span id="nameDisplay"></span>. Click below to book your free 30-minute strategy call. We'll go through your goals, assess where you're at, and map out your first block.
+    </div>
+    <a href="https://calendly.com/d/ck2x-2df-gdn" target="_blank" class="result-cta cta-orange">
+      BOOK YOUR FREE CALL →
+    </a>
+  </div>
+
+  <!-- STEP 3B: Not ready — redirect to lower ticket -->
+  <div class="step" id="step3no">
+    <div class="result-icon">💪</div>
+    <div class="result-title">NO WORRIES.</div>
+    <div class="result-text">
+      Investing in a coach is a big decision<span id="nameDisplay2"></span>. Here are three ways to start training smarter today:
+    </div>
+    <a href="https://rugbyperformanceindex.base44.app" target="_blank" class="result-cta" style="display:block; width:100%; text-align:center; padding:16px; border-radius:8px; font-weight:700; font-size:15px; text-decoration:none; background:var(--green); color:#fff; transition:all 0.2s;">
+      CHECK MY PERFORMANCE INDEX (FREE) →
+    </a>
+    <div style="font-size:11px; color:var(--muted); text-align:center; margin:4px 0 12px;">See how you stack up against NRL & Super Rugby pros</div>
+    <a href="#" class="result-cta cta-green" style="background:var(--orange);">
+      GET THE 6-WEEK PROGRAM — $69 →
+    </a>
+    <div class="or-divider">or</div>
+    <a href="#" class="result-cta cta-blue">
+      JOIN THE PPA COMMUNITY (FREE) →
+    </a>
+  </div>
+</div>
+
+<script>
+let investmentChoice = null;
+
+// ── FORMSPREE CONFIG ──
+// 1. Go to https://formspree.io and create a free account
+// 2. Create a new form — it gives you an endpoint like https://formspree.io/f/xABcdEfG
+// 3. Paste that endpoint below (replace YOUR_FORM_ID with the ID)
+const FORMSPREE_URL = 'https://formspree.io/f/mojkezyv';
+
+// Enable Step 1 next button when required fields filled
+const firstName = document.getElementById('firstName');
+const sport = document.getElementById('sport');
+const position = document.getElementById('position');
+const goal = document.getElementById('goal');
+const toStep2 = document.getElementById('toStep2');
+
+function checkStep1() {
+  const ready = firstName.value.trim() !== '' && sport.value !== '';
+  toStep2.disabled = !ready;
+}
+firstName.addEventListener('input', checkStep1);
+sport.addEventListener('change', checkStep1);
+
+// Go to step 2
+toStep2.addEventListener('click', function() {
+  document.getElementById('step1').classList.remove('active');
+  document.getElementById('step2').classList.add('active');
+  document.getElementById('dot2').classList.add('active');
+});
+
+// Investment selection
+function selectInvestment(choice) {
+  investmentChoice = choice;
+  document.getElementById('optYes').classList.toggle('selected', choice === 'yes');
+  document.getElementById('optNo').classList.toggle('selected', choice === 'no');
+  document.getElementById('toStep3').disabled = false;
+}
+
+// Go to step 3 — submit data then show result
+document.getElementById('toStep3').addEventListener('click', function() {
+  const name = firstName.value.trim();
+  const nameStr = name ? ', ' + name : '';
+
+  // Build the submission data
+  const formData = {
+    name: name,
+    sport: sport.value,
+    position: position.value || 'Not provided',
+    goal: goal.value || 'Not provided',
+    additional_info: document.getElementById('extra').value || 'None',
+    ready_to_invest: investmentChoice === 'yes' ? 'YES — ready to book' : 'NOT YET — sent to lower ticket',
+    _subject: investmentChoice === 'yes'
+      ? '🔥 HOT LEAD: ' + name + ' wants to book a call'
+      : '📋 Lead: ' + name + ' — not ready yet'
+  };
+
+  // Send to Formspree (fire and forget — don't block the UI)
+  fetch(FORMSPREE_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    body: JSON.stringify(formData)
+  }).catch(function() {
+    // Silently fail — don't break the user experience
+  });
+
+  // Show the right result screen
+  document.getElementById('step2').classList.remove('active');
+  document.getElementById('dot3').classList.add('active');
+
+  if (investmentChoice === 'yes') {
+    document.getElementById('nameDisplay').textContent = nameStr;
+    document.getElementById('step3yes').classList.add('active');
+  } else {
+    document.getElementById('nameDisplay2').textContent = nameStr;
+    document.getElementById('step3no').classList.add('active');
+  }
+});
+
+// Back button
+function goBack(toStep) {
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  if (toStep === 1) {
+    document.getElementById('step1').classList.add('active');
+    document.getElementById('dot2').classList.remove('active');
+  }
+}
+</script>
+
+</body>
+</html>
